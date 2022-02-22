@@ -1,30 +1,39 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <header-shop />
+  <router-view />
+  <footer-shop />
 </template>
 
+<script>
+import HeaderShop from "./components/Header.vue";
+import FooterShop from "./components/Footer.vue";
+export default {
+  components: { HeaderShop, FooterShop },
+  mounted() {
+    this.$store.dispatch("loadCatalog");
+    this.$store.dispatch("loadCart");
+  },
+};
+</script>
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#nav {
-  padding: 30px;
+ul,
+ol {
+  list-style: none;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+a {
+  text-decoration: none;
+}
+::-webkit-details-marker {
+  display: none;
+}
+summary {
+  display: block;
 }
 </style>
