@@ -5,28 +5,38 @@
       <div class="cart__goods">
         <div class="cart__goods-box">
           <h2 class="hidden">Goods</h2>
-          <!-- <div class="cart__goods-item">
-            <img src="img/good-item1.jpg" alt="Товар" class="cart__image" />
+          <div
+            class="cart__goods-item"
+            v-for="(item, index) in products"
+            :key="index"
+          >
+            <img :src="item.image" alt="Товар" class="cart__image" />
 
             <div class="cart__good-info">
-              <h3 class="cart__good-title">MANGO PEOPLE T-SHIRT</h3>
+              <h3 class="cart__good-title">{{ item.title }}</h3>
               <p class="cart__info-text">
-                Price: <span class="cart__price-value">$300</span>
+                Price: <span class="cart__price-value">${{ item.price }}</span>
               </p>
-              <p class="cart__info-text">Color: Red</p>
-              <p class="cart__info-text">Size: Xl</p>
               <div class="cart__info-text">
                 Quantity:
-                <input type="number" class="cart__quantity-input" value="2" />
+                <input
+                  type="number"
+                  class="cart__quantity-input"
+                  v-model="item.count"
+                />
               </div>
-              <button class="cart__close-button" type="button">
+              <button
+                class="cart__close-button"
+                type="button"
+                v-on:click="removeFromCart(item.id)"
+              >
                 <i class="fas fa-times"></i>
               </button>
             </div>
-          </div> -->
+          </div>
         </div>
-        <div class="cart__buttons">
-          <button class="cart__button" type="button">
+        <div class="cart__buttons" v-if="products.length > 0">
+          <button class="cart__button" type="button" @click="clearCart">
             Clear shopping cart
           </button>
           <button class="cart__button" type="button">Continue shopping</button>
@@ -60,12 +70,12 @@
           </div>
           <div class="cart__form-totals">
             <p class="cart__sub-total">
-              sub total <span class="cart__totals-value">$900</span>
+              sub total <span class="cart__totals-value">${{ totalSum }}</span>
             </p>
             <p class="cart__grand-total">
               Grand total
               <span class="cart__totals-value cart__grand-total-value"
-                >$900</span
+                >${{ totalSum }}</span
               >
             </p>
             <button type="submit" class="cart__checkout-button cart__button">
@@ -84,6 +94,26 @@ import Breadcrumb from "./Breadcrumb.vue";
 import Feedback from "./Feedback.vue";
 export default {
   components: { Feedback, Breadcrumb },
+  computed: {
+    products() {
+      return this.$store.getters.getCart;
+    },
+    totalSum() {
+      let total = 0;
+      this.products.forEach((element) => {
+        total += element.price * element.count;
+      });
+      return total;
+    },
+  },
+  methods: {
+    removeFromCart(id) {
+      this.$store.dispatch("removeFromCart", id);
+    },
+    clearCart() {
+      this.$store.dispatch("clearCart");
+    },
+  },
 };
 </script>
 

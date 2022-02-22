@@ -25,7 +25,12 @@
 import ProductCard from "./ProductCard.vue";
 export default {
   components: { ProductCard },
-  props: ["products"],
+  computed: {
+    products() {
+      console.log(this.$store.getters);
+      return this.$store.getters.getCatalog;
+    },
+  },
 };
 </script>
 

@@ -3,7 +3,11 @@
     <div class="products__image">
       <img :src="item.image" alt="product image" class="products__card-image" />
       <div class="products__image-wrapper">
-        <a href="product.html" class="products__product-link">
+        <button
+          type="button"
+          class="products__add-button"
+          v-on:click="addToCart"
+        >
           <svg
             width="27"
             height="25"
@@ -26,7 +30,7 @@
             />
           </svg>
           Add to cart
-        </a>
+        </button>
       </div>
     </div>
     <div class="products__card-text">
@@ -42,6 +46,11 @@
 <script>
 export default {
   props: ["item"],
+  methods: {
+    addToCart() {
+      this.$store.dispatch("addToCart", this.item);
+    },
+  },
 };
 </script>
 
@@ -102,7 +111,8 @@ $main-background-color: #f8f3f4;
     transform: translate(-100%);
     transition: transform 0.4s;
   }
-  &__product-link {
+  &__add-button {
+    cursor: pointer;
     border: 1px solid #ffffff;
     background: transparent;
     padding: 10px;

@@ -2,7 +2,7 @@
   <div class="main-page">
     <promo />
     <categories />
-    <main-page-products :products="products" />
+    <main-page-products />
     <features />
     <feedback />
   </div>

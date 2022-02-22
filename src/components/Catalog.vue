@@ -218,7 +218,11 @@ import Features from "./Features.vue";
 import Breadcrumb from "./Breadcrumb.vue";
 export default {
   components: { ProductCard, Feedback, Features, Breadcrumb },
-  props: ["products"],
+  computed: {
+    products() {
+      return this.$store.getters.getCatalog;
+    },
+  },
 };
 </script>
 
